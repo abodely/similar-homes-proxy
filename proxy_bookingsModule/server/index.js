@@ -10,6 +10,15 @@ app.get('/', (req, res) => res.redirect(`/bookings/${Math.floor(Math.random()* 1
 
 app.use('/bookings/:roomid', express.static(path.join(__dirname, '../public')));
 
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+app.get('/similarhomes/:host_id/nearby', (req, res) => {
+  axios.get(`http://localhost:3004/similarhomes/${req.params.host_id}/nearby`)
+    .then(response => {
+      res.send(response.data);
+    });
+});
+
 // app.get('/photosandcomments/:accommodationid', (req, res) => {
 //   axios.get(`http://localhost:3001/photosandcomments/${req.params.accommodationid}`)
 //     .then(response => {
@@ -37,12 +46,3 @@ app.use('/bookings/:roomid', express.static(path.join(__dirname, '../public')));
 //       res.send(response.data);
 //     });
 // });
-
-app.get('/similarhomes/:host_id/nearby', (req, res) => {
-  axios.get(`http://localhost:3004/similarhomes/${req.params.host_id}/nearby`)
-    .then(response => {
-      res.send(response.data);
-    });
-});
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
